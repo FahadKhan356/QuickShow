@@ -12,6 +12,7 @@ import Favorite from './pages/Favorite';
 import MyBookings from './pages/MyBookings';
 import MovieDetails from './pages/MovieDetails';
 import {Toaster} from 'react-hot-toast';
+import { SignIn } from '@clerk/clerk-react';
 
 
 
@@ -20,7 +21,6 @@ const App = ()=>{
 const isAdminRoute=useLocation().pathname.startsWith('/admin'); 
 return (
 
-  
   <>
 
   <Toaster/>
