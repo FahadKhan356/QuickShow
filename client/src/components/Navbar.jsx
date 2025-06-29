@@ -27,11 +27,11 @@ const Navbar = () => {
   backdrop-blur bg-black/70 md:bg-white/10 md:border border-grey-300/20
   overflow-hidden transition-[width] duration-300  ${isOpen ? 'max-md:w-full' : 'max-md:w-0'}`}>
     <XIcon className='md:hidden absolute top-6 right-6 w-10 h-6 cursor-pointer' onClick={()=>setisOpen(!isOpen)}></XIcon>
-        <Link onClick={()=>{scrollTo(0,0) , setisOpen(false)}} to="/">Home</Link>
-        <Link onClick={()=>{scrollTo(0,0) , setisOpen(false)}} to="/movies">Movies</Link>
-        <Link onClick={()=>{scrollTo(0,0) , setisOpen(false)}} to="/">Theaters</Link>
-        <Link onClick={()=>{scrollTo(0,0) , setisOpen(false)}} to="/">Releases</Link>
-        <Link onClick={()=>{scrollTo(0,0) , setisOpen(false)}} to="/favorite">Favorites</Link>
+        <Link onClick={()=>{scrollTo(0,0) ; setisOpen(false)}} to="/">Home</Link>
+        <Link onClick={()=>{scrollTo(0,0) ; setisOpen(false)}} to="/movies">Movies</Link>
+        <Link onClick={()=>{scrollTo(0,0) ; setisOpen(false)}} to="/">Theaters</Link>
+        <Link onClick={()=>{scrollTo(0,0) ; setisOpen(false)}} to="/">Releases</Link>
+        <Link onClick={()=>{scrollTo(0,0) ; setisOpen(false)}} to="/favorite">Favorites</Link>
       </div>
     
       {/* 👉 Right: Icons and Button */}
