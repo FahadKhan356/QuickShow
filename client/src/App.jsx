@@ -12,7 +12,7 @@ import Favorite from './pages/Favorite';
 import MyBookings from './pages/MyBookings';
 import MovieDetails from './pages/MovieDetails';
 import {Toaster} from 'react-hot-toast';
-import { SignIn } from '@clerk/clerk-react';
+
 
 
 
@@ -29,7 +29,7 @@ return (
   <Routes>
   <Route path='/' element={<Home/>}  />
   <Route path='/Movies' element={<Movies/>}  />
-  <Route path='/MoviesDetails/:id' element={<MovieDetails/>} />
+  <Route path='/Movies/:id' element={<MovieDetails/>} />
   <Route path='/MoviesDetails/:id/:date' element={<SeatLayout/>} />
   <Route path='/MyBookings' element={<MyBookings/>} />
   <Route path='/Favorite' element={<Favorite/>} />
