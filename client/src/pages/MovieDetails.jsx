@@ -1,22 +1,32 @@
 
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { dummyDateTimeData, dummyShowsData , dummyCastsData} from '../assets/assets/assets';
 import BlurCircle from '../components/BlurCircle';
-import { Heart, PlayIcon, StarIcon } from 'lucide-react';
+import {Heart,PlayIcon, StarIcon } from 'lucide-react';
 import timeFormat from '../lib/timeformat';
+import DateSelect from '../components/DateSelect';
+import MovieCard from '../components/MovieCard';
+import LoadingComponent from '../components/LoadingComponent';
+
+
 
 const MovieDetails = ()=>{
+  const navigate=useNavigate();
+
     const {id} = useParams();
     const [show,setShow]=useState(null)
 
 const getShow= async()=>{
   const show=dummyShowsData.find(show=>show._id===id)
+ if(show){
   setShow({
     movie:show,
     dateTime: dummyDateTimeData,  
 })
+ }
 }
+
 useEffect(()=>{
     getShow();
 },[id]);
@@ -45,7 +55,7 @@ useEffect(()=>{
        <button className='flex gap-2 bg-gray-800 hover:bg-gray-900 transition rounded-md px-7 py-3 text-sm cursor-pointer active:scale-95'>
         <PlayIcon className='w-5 h-5'/>
         Watch Trailer</button>
-        <a href='' className='bg-primary rounded-md px-7 py-3 text-sm cursor-pointer active:scale-95 hover:bg-primary-dull'>Buy Tickets</a>
+        <a href='#dateSelect' className='bg-primary rounded-md px-7 py-3 text-sm cursor-pointer active:scale-95 hover:bg-primary-dull'>Buy Tickets</a>
         <button className='bg-gray-700 rounded-full p-2.5 active:scale-95 cursor-pointer transition'>
           <Heart className={`w-h h-5`}/>
         </button>
@@ -69,16 +79,29 @@ useEffect(()=>{
         </div>))}
           </div>  
         </div>
-       
-       
-   
 
-         
+  
+         <DateSelect datetime={show.dateTime} id={id}/>
+
+         <p className='text-sm mt-56'>You May Also Like</p>
+         <div className='flex flex-nowrap max-sm:justify-center gap-2'>
+          {dummyShowsData.slice(0,4).map((movie,index)=>(<MovieCard movie={movie} key={index} />))}
+
+         </div>
+      
+
+         <div className='flex justify-center mt-20'>
+          <button onClick={()=>{navigate('/movies'); scrollTo(0,0)}} className='bg-primary hover:bg-primary-dull px-10 py-3 rounded-md font-medium cursor-pointer'>
+          Show More
+          </button>
+         </div>
  
       
       </div>
 
 
-    ): <div></div>
+    ):    <LoadingComponent/>
+
+   
 }
 export default MovieDetails;

@@ -30,7 +30,7 @@ return (
   <Route path='/' element={<Home/>}  />
   <Route path='/Movies' element={<Movies/>}  />
   <Route path='/Movies/:id' element={<MovieDetails/>} />
-  <Route path='/MoviesDetails/:id/:date' element={<SeatLayout/>} />
+  <Route path='/Movies/:id/:date' element={<SeatLayout/>} />
   <Route path='/MyBookings' element={<MyBookings/>} />
   <Route path='/Favorite' element={<Favorite/>} />
   </Routes>

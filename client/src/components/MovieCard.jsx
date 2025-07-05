@@ -7,7 +7,7 @@ import timeFormat from '../lib/timeformat'
 const MovieCard = ({movie}) => {
     const  navigate=useNavigate()
   return (
-    <div className='flex flex-col justify-between p-3 bg-gray-800 rounded-2x1 hover:-translate-y-2 transition duration-300 w-64 '>
+    <div className='flex flex-col justify-between p-3 bg-gray-800 rounded-2x1 hover:-translate-y-2 transition duration-300 w-64 rounded-md '>
    <img onClick={()=>{navigate(`/Movies/${movie._id}`); scrollTo(0,0)}}  src={movie.backdrop_path} alt=''
     className='rounded-lg h-52 w-full object-cover object-bottom-right cursor-pointer' />
 
