@@ -8,6 +8,8 @@ import timeFormat from '../lib/timeformat';
 import dateFormat from '../lib/dateFormat';
 
 const MyBookings = ()=>{
+
+    const currency=import.meta.env.VITE_CURRENCY
     const [bookings,setBookings]=useState([]);
     const [isLoading,setLoader]=useState(true);
 
@@ -36,6 +38,19 @@ const MyBookings = ()=>{
         <p className='text-gray-400 text-sm'>{dateFormat(bookings.show.showDateTime)}</p>
         </div>
        </div>
+       <div className='flex flex-col md:items-end md:text-right justify-between p-4'>
+        <div className='flex items-center gap-4'>
+            <p className='test-2xl font-semibold mb-3'>{currency}{bookings.amount}</p>
+            {!bookings.isPaid && <button className='bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer'>Play Now</button>}
+        </div>
+        <div className='text-sm'>
+            <p><span className='text-gray-400'>Total Tickets:</span>{bookings.bookedSeats.length}</p>
+            <p><span className='text-gray-400'>Booked Seats:</span>{bookings.bookedSeats.join(", ")}</p>
+        </div>
+
+       </div>
+
+
       
         </div>
      ))}
