@@ -22,16 +22,7 @@ const ListShows = () => {
                 C1: "user3"
               }
      },
-     {
-      movie: dummyShowsData[0],
-            showDateTime: "2025-06-30T02:30:00.000Z",
-            showPrice: 59,
-            occupiedSeats: {
-                A1: "user1",
-                B1: "user2",
-                C1: "user3"
-              }
-     }
+     
     ],);
      setLoading(false);
 
@@ -48,13 +39,13 @@ getAllShows();
     <>
     <Title text1={"List"} text2={"Shows"}/>
     
-<div className='max-w-4xl mt-6 overflow-auto'>
+<div className='max-w-4xl mt-6 overflow-x-visible'>
 <table className='w-full  border-collapse rounded-md overflow-hidden text-nowrap'>
    <thead>
-    <tr className='bg-primary/20 text-left text-white'>
+    <tr className='bg-primary/20 text-left text-white '>
     <th className='p-2 font-medium pl-5'>Movie Name</th>
     <th className='p-2 font-medium'>Show Time</th>
-    <th className='p-2 font-medium'>Total Bokkings</th>
+    <th className='p-2 font-medium'>Total Bookings</th>
     <th className='p-2 font-medium'>Earnings</th>
 
 
