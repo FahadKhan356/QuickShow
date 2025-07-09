@@ -3,6 +3,7 @@ import { dummyBookingData } from '../../assets/assets/assets';
 import LoadingComponent from '../../components/LoadingComponent';
 
 import dateFormat from '../../lib/dateFormat';
+import Title from '../../components/admin/Title';
 
 const ListBookings = () => {
  const currency=import.meta.env.VITE_CURRENCY;
@@ -24,6 +25,8 @@ const ListBookings = () => {
   },[]);
 
   return !isLoading ? (
+    <>
+    <Title text1={"List"} text2={"Bookings"}/>
     <div className=' max-w-4xl mt-6 overflow-x-visible'>
      <table className='w-full border-collapse overflow-hidden text-nowrap rounded-md'>
       <thead>
@@ -55,6 +58,7 @@ const ListBookings = () => {
      </table>
 
     </div>
+    </>
   ) :
    <LoadingComponent/>;
 }
