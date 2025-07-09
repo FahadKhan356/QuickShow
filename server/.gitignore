@@ -1,0 +1,5 @@
+# Ignore root-level node modules and environment files
+node_modules/
+server/node_modules/
+.env
+package-lock.json
