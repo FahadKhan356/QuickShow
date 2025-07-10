@@ -26,12 +26,7 @@ const syncUserDeletion=inngest.createFunction(
     {event:"clerk/user.delete"},
     async({event})=>{
        const {id}=event.data
-         const userData={
-                _id:id,
-                email:email_address,
-                name: first_name +''+ last_name,
-                image:image_url
-        }
+    
       await User.findByIdAndDelete(id)
      
        }
