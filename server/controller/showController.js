@@ -95,7 +95,7 @@ export const getShows=async(req, res)=>{
 
 //get single show
 
-export const getShow=async()=>{
+export const getShow=async(req,res)=>{
     try{
              const {movieId} = req.params;
              const show= await Show.find({movie:movieId , showDateTime:{$gte: new Date()}});
