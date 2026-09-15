@@ -14,13 +14,18 @@ import userRouter from './router/userRouter.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
-await connectDB()
 
 
 // Middleware
 app.use(express.json())
 app.use(cors())
 app.use(clerkMiddleware())
+
+// Ensure MongoDB is connected before handling requests (lazy, fail-fast)
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+})
 
 
 // Routes
