@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { ClerkProvider } from '@clerk/clerk-react'
+import AuthSync from './components/AuthSync'
 
 
 
@@ -18,6 +19,7 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById('root')).render(
   <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl='/'>
+      <AuthSync />
       <BrowserRouter>
     <App />
   </BrowserRouter>
