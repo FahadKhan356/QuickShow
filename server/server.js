@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './configs/db.js';
+import mongoose from 'mongoose';
 import { clerkMiddleware } from '@clerk/express'
 import { serve } from "inngest/express";
 import { inngest, functions } from './inngest/index.js';
@@ -21,7 +22,19 @@ app.use(express.json())
 app.use(cors())
 app.use(clerkMiddleware())
 
-// Ensure MongoDB is connected before handling requests (lazy, fail-fast)
+// Routes that do NOT require DB (respond instantly - useful for diagnostics)
+app.get('/', (req, res) => res.send('server is live'));
+app.get('/api/health', (req, res) => {
+  const stateMap = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+  res.json({
+    success: true,
+    dbUriSet: !!process.env.MONGODB_URI,
+    dbState: stateMap[mongoose.connection.readyState] || 'unknown',
+    time: new Date().toISOString(),
+  });
+});
+
+// Ensure MongoDB is connected before handling DB routes (lazy, fail-fast)
 app.use(async (req, res, next) => {
   await connectDB();
   next();
@@ -29,7 +42,6 @@ app.use(async (req, res, next) => {
 
 
 // Routes
-app.get('/', (req, res) => res.send('server is live'));
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/show", showRouter)
 app.use("/api/booking", bookingRouter)

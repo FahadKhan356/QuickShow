@@ -17,9 +17,11 @@ const connectDB = async () => {
         const baseUri = uri.replace(/\/$/, "");
 
         cachedConnection = await mongoose.connect(`${baseUri}/QuickShow`, {
-            serverSelectionTimeoutMS: 5000,
-            connectTimeoutMS: 5000,
-            socketTimeoutMS: 30000,
+            serverSelectionTimeoutMS: 4000,
+            connectTimeoutMS: 4000,
+            socketTimeoutMS: 20000,
+            // Fail fast if there is no live connection instead of buffering for 10s
+            bufferCommands: false,
         });
 
         console.log("MongoDB connected");
