@@ -14,8 +14,7 @@ const getEmail = (user) => {
 
 // Inngest function to save user data to the database
 const syncUserCreation = inngest.createFunction(
-    { id: "sync_user_from-clerk" },
-    { event: "clerk/user.created" },
+    { id: "sync_user_from-clerk", triggers: { event: "clerk/user.created" } },
     async ({ event }) => {
         const { id, first_name, last_name, image_url } = event.data;
         const userData = {
@@ -30,8 +29,7 @@ const syncUserCreation = inngest.createFunction(
 
 // Delete synced user from the database
 const syncUserDeletion = inngest.createFunction(
-    { id: "delete_user_from-clerk" },
-    { event: "clerk/user.deleted" },
+    { id: "delete_user_from-clerk", triggers: { event: "clerk/user.deleted" } },
     async ({ event }) => {
         const { id } = event.data;
         await User.findByIdAndDelete(id);
@@ -40,8 +38,7 @@ const syncUserDeletion = inngest.createFunction(
 
 // Update synced user in the database
 const syncUserUpdation = inngest.createFunction(
-    { id: "update_user_from-clerk" },
-    { event: "clerk/user.updated" },
+    { id: "update_user_from-clerk", triggers: { event: "clerk/user.updated" } },
     async ({ event }) => {
         const { id, first_name, last_name, image_url } = event.data;
         const userData = {
