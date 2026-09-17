@@ -18,7 +18,7 @@ export const getDashboardData = async (req, res) => {
         const activeShows = await Show.find({ showDateTime: { $gte: new Date() } })
             .populate("movie")
             .sort({ showDateTime: 1 });
-        const bookings = await Booking.find({ isPaid: true });
+        const bookings = await Booking.find({});
 
         const dashboardData = {
             totalBookings: bookings.length,

@@ -20,14 +20,18 @@ const Dashboard = () => {
   });
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         const data = await api('/admin/dashboard');
         setDashboardData(data.dashboardData);
-      } catch (error) {
-        console.error(error.message);
+      } catch (err) {
+        console.error(err.message);
+        setError(err.status === 401 || err.status === 403
+          ? "Not authorized. Make sure you are logged in as an admin (role: admin)."
+          : err.message);
         setDashboardData({ totalBookings: 0, totalRevenue: 0, activeShows: [], totalUser: 0 });
       } finally {
         setLoading(false);
@@ -46,6 +50,11 @@ const Dashboard = () => {
   return !loading ? (
     <>
       <Title text1="Admin" text2="Dashboard" />
+      {error && (
+        <div className='mt-4 mb-4 border border-red-500/30 bg-red-500/10 rounded-md px-4 py-3'>
+          <p className='text-red-400'>{error}</p>
+        </div>
+      )}
       <div className='relative flex flex-wrap gap-4 mt-6'>
         <BlurCircle top='-100px' left='0' />
         <div className='flex flex-wrap gap-4 w-full'>

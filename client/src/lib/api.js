@@ -35,7 +35,9 @@ export async function api(path, { method = 'GET', body, auth = true } = {}) {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok || data.success === false) {
-    throw new Error(data.message || 'Request failed');
+    const err = new Error(data.message || 'Request failed');
+    err.status = response.status;
+    throw err;
   }
 
   return data;
