@@ -11,8 +11,8 @@ const Movies = () => {
     useEffect(() => {
         const load = async () => {
             try {
-                const data = await api('/show/all');
-                setMovies(data.shows || []);
+                const data = await api('/show/now-playing');
+                setMovies(data.movie || []);
             } catch (error) {
                 console.error(error.message);
             } finally {

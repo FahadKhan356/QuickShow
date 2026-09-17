@@ -14,8 +14,8 @@ const FeaturedSection = () => {
     useEffect(() => {
         const load = async () => {
             try {
-                const data = await api('/show/all');
-                setMovies((data.shows || []).slice(0, 4));
+                const data = await api('/show/now-playing');
+                setMovies((data.movie || []).slice(0, 4));
             } catch (error) {
                 console.error(error.message);
             }

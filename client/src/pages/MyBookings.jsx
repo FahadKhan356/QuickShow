@@ -6,6 +6,7 @@ import BlurCircle from '../components/BlurCircle';
 import timeFormat from '../lib/timeformat';
 import dateFormat from '../lib/dateFormat';
 import { api } from '../lib/api';
+import { tmdbImage } from '../lib/tmdbImage';
 
 const MyBookings = () => {
 
@@ -41,7 +42,7 @@ const MyBookings = () => {
             {bookings.map((booking, index) => (
                 <div key={index} className='flex flex-col md:flex-row bg-primary/8 border border-primary/20 rounded-lg p-2 mt-4 justify-between max-w-3xl'>
                     <div className='flex flex-col md:flex-row'>
-                        <img className='max-w-45 aspect-video h-auto object-cover object-bottom rounded' src={booking.show?.movie?.poster_path} alt=''></img>
+                        <img className='max-w-45 aspect-video h-auto object-cover object-bottom rounded bg-gray-700' src={tmdbImage(booking.show?.movie?.poster_path, 'w342')} alt=''></img>
                         <div className='flex flex-col p-4'>
                             <p className='text-lg font-semibold'>{booking.show?.movie?.title}</p>
                             <p className='text-gray-400 text-sm'>{timeFormat(booking.show?.movie?.runtime)}</p>

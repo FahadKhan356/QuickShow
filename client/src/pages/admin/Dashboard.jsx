@@ -6,6 +6,7 @@ import Title from '../../components/admin/Title';
 import BlurCircle from '../../components/BlurCircle';
 import dateFormat from '../../lib/dateFormat';
 import { api } from '../../lib/api';
+import { tmdbImage } from '../../lib/tmdbImage';
 
 const Dashboard = () => {
 
@@ -65,7 +66,7 @@ const Dashboard = () => {
         {
           dashboardData.activeShows.map((show) => (
             <div key={show._id} className='flex flex-col justify-between bg-primary/10 border border-primary/20 mt-6 hover:translate-y-1 transition duration-300 w-55 h-full rounded-lg overflow-hidden'>
-              <img className='object-cover h-60 w-full rounded' src={show.movie?.poster_path} alt='' />
+              <img className='object-cover h-60 w-full rounded bg-gray-700' src={tmdbImage(show.movie?.poster_path, 'w342')} alt='' />
               <div className='flex flex-col px-2 mt-4'>
                 <p className='text-md truncate'>{show.movie?.title}</p>
                 <div className='flex flex-row justify-between py-3'>

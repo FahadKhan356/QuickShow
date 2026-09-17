@@ -5,6 +5,7 @@ import { CheckIcon, DeleteIcon, StarIcon } from 'lucide-react';
 import { Kconverter } from '../../lib/Kconverter';
 import toast from 'react-hot-toast';
 import { api } from '../../lib/api';
+import { tmdbImage } from '../../lib/tmdbImage';
 
 const AddShows = () => {
   const currency = import.meta.env.VITE_CURRENCY;
@@ -86,7 +87,7 @@ const AddShows = () => {
             {nowPlayingMovies.map((movie) => (
               <div onClick={() => setSelectedMovies(movie.id)} className='group-flex flex-wrap gap-4 mt-4 w-max overflow-x-visible'>
                 <div key={movie.id} className='overflow-hidden relative max-w-40 rounded-md h-full group-hover:opacity-50 hover:!opacity-100 hover:-translate-y-1 transition duration-300 cursor-pointer'>
-                  <img className='rounded-md object-cover brightness-90' src={movie.poster_path} />
+                  <img className='rounded-md object-cover brightness-90 bg-gray-700' src={tmdbImage(movie.poster_path, 'w342')} />
                   <div className='flex items-center justify-between absolute bottom-0 left-0 text-sm w-full px-1 bg-black/70'>
                     <p className='flex items-center gap-1'>
                       <StarIcon className='w-4 h-4 fill-primary text-primary' />

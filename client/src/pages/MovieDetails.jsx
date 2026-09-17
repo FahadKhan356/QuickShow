@@ -7,6 +7,7 @@ import DateSelect from '../components/DateSelect';
 import MovieCard from '../components/MovieCard';
 import LoadingComponent from '../components/LoadingComponent';
 import { api } from '../lib/api';
+import { tmdbImage } from '../lib/tmdbImage';
 
 const MovieDetails = () => {
     const navigate = useNavigate();
@@ -25,8 +26,8 @@ const MovieDetails = () => {
                 });
             }
             // "You may also like" movies
-            const all = await api('/show/all');
-            setSimilar((all.shows || []).filter((m) => m._id !== id).slice(0, 4));
+            const all = await api('/show/now-playing');
+            setSimilar((all.movie || []).filter((m) => (m._id || m.id) !== id).slice(0, 4));
         } catch (error) {
             console.error(error.message);
             setShow(null);
@@ -41,7 +42,7 @@ const MovieDetails = () => {
         <div className='px-6 md:px-16 lg:px-40 pt-30 md:pt-50'>
 
             <div className='flex flex-col md:flex-row gap-8 max-w-6xl mx-auto'>
-                <img src={show.movie.poster_path} alt='' className='max-md:mx-auto rounded-xl h-104 max-w-70 object-cover' />
+                <img src={tmdbImage(show.movie.poster_path, 'w780')} alt='' className='max-md:mx-auto rounded-xl h-104 max-w-70 object-cover bg-gray-700' />
 
                 <div className='relative flex flex-col gap-3'>
                     <BlurCircle top='100px' left='100px' />
@@ -73,12 +74,19 @@ const MovieDetails = () => {
                 <div className='flex items-center gap-4 no-scrollbar w-max px-4'>
                     {(show.movie.casts || []).slice(0, 12).map((cast, index) => (
                         <div key={index} className='flex flex-col items-center text-center'>
-                            <img className='rounded-full h-20 aspect-square object-cover' src={cast.profile_path} alt='' />
+                            <img className='rounded-full h-20 aspect-square object-cover bg-gray-700' src={tmdbImage(cast.profile_path, 'w185')} alt='' />
                             <p className='font-medium text-xs mt-3'>{cast.name}</p>
                         </div>
                     ))}
                 </div>
             </div>
+
+            {Object.keys(show.dateTime).length === 0 && (
+                <div className='text-center mt-8 border border-primary/20 rounded-lg p-6'>
+                    <p className='text-lg font-semibold'>No shows scheduled yet</p>
+                    <p className='text-sm text-gray-400'>No shows are scheduled for this movie yet. Please check back later.</p>
+                </div>
+            )}
 
             <DateSelect datetime={show.dateTime} id={id} />
 
