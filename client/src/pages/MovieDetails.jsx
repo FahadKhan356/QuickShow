@@ -15,21 +15,28 @@ const MovieDetails = () => {
 
     const [show, setShow] = useState(null);
     const [similar, setSimilar] = useState([]);
+    const [failed, setFailed] = useState(false);
 
     const getShow = async () => {
         try {
             const data = await api(`/show/${id}`);
+            const dateTime = data.datetime || {};
             if (data.movie) {
-                setShow({
-                    movie: data.movie,
-                    dateTime: data.datetime || {},
-                });
+                setFailed(false);
+                setShow({ movie: data.movie, dateTime });
+            } else if (Object.keys(dateTime).length > 0) {
+                setFailed(false);
+                setShow({ movie: { title: 'Movie', genres: [] }, dateTime });
+            } else {
+                setFailed(true);
+                setShow(null);
             }
             // "You may also like" movies
             const all = await api('/show/now-playing');
             setSimilar((all.movie || []).filter((m) => (m._id || m.id) !== id).slice(0, 4));
         } catch (error) {
             console.error(error.message);
+            setFailed(true);
             setShow(null);
         }
     }
@@ -107,6 +114,11 @@ const MovieDetails = () => {
 
         </div>
 
+    ) : failed ? (
+        <div className='flex flex-col items-center justify-center h-screen'>
+            <h1 className='text-center text-3xl font-bold my-4'>Movie not found</h1>
+            <button onClick={() => { navigate('/movies'); scrollTo(0, 0) }} className='mt-6 bg-primary px-8 py-3 rounded-md font-medium cursor-pointer'>Back to Movies</button>
+        </div>
     ) : <LoadingComponent />
 }
 export default MovieDetails;

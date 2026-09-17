@@ -100,12 +100,51 @@ export const getShows = async (req, res) => {
     }
 };
 
-// get single show
+// get single show (and movie details)
 export const getShow = async (req, res) => {
     try {
         const { movieId } = req.params;
         const show = await Show.find({ movie: movieId, showDateTime: { $gte: new Date() } });
-        const movie = await Movie.findById(movieId);
+
+        let movie = await Movie.findById(movieId);
+
+        // If the movie is not saved yet, fetch it from TMDB so the details page always opens
+        if (!movie) {
+            try {
+                const [movieDetailsResponse, movieCreditsResponse] = await Promise.all([
+                    axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+                        headers: { Authorization: `Bearer ${process.env.TMDB_API_ACCESS_TOKEN}` },
+                    }),
+                    axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
+                        headers: { Authorization: `Bearer ${process.env.TMDB_API_ACCESS_TOKEN}` },
+                    }),
+                ]);
+                const MovieApiData = movieDetailsResponse.data;
+                const MovieCreditsData = movieCreditsResponse.data;
+
+                movie = await Movie.create({
+                    _id: movieId,
+                    title: MovieApiData.title,
+                    overview: MovieApiData.overview,
+                    poster_path: MovieApiData.poster_path,
+                    backdrop_path: MovieApiData.backdrop_path,
+                    genres: MovieApiData.genres,
+                    casts: (MovieCreditsData.cast || []).slice(0, 20).map((cast) => ({
+                        name: cast.name,
+                        profile_path: cast.profile_path,
+                    })),
+                    release_date: MovieApiData.release_date,
+                    original_language: MovieApiData.original_language,
+                    tagline: MovieApiData.tagline || " ",
+                    vote_average: MovieApiData.vote_average,
+                    vote_count: MovieApiData.vote_count,
+                    runtime: MovieApiData.runtime,
+                });
+            } catch (err) {
+                // TMDB fetch failed; leave movie as null
+                console.error(err.message);
+            }
+        }
 
         const datetime = {};
 
